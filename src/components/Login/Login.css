@@ -1,0 +1,119 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--laranja-escuro) 0%, var(--queimado) 100%);
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--laranja-escuro), var(--laranja-claro));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+    color: white;
+    font-family: var(--fonte-playfair);
+}
+
+.login-header h1 {
+    color: var(--laranja-escuro);
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.login-header p {
+    color: var(--queimado);
+    font-family: var(--fonte-source);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-family: var(--fonte-source);
+    font-weight: 600;
+    color: var(--preto);
+}
+
+.form-group input {
+    padding: 12px 15px;
+    border: 2px solid var(--cinza-claro);
+    border-radius: 10px;
+    font-family: var(--fonte-roboto);
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--laranja-escuro);
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: var(--fonte-source);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--laranja-escuro);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--laranja-claro);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--cinza-claro);
+    color: var(--preto);
+}
+
+.btn-secondary:hover {
+    background: var(--bege-claro);
+    transform: translateY(-2px);
+}
+
+.error-message {
+    background: #fee;
+    color: #c00;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+}

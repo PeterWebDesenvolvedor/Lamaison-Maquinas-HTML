@@ -1,0 +1,89 @@
+.header {
+  background: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--cinza-claro);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+@media (min-width: 769px) {
+  .header {
+    padding: 20px 30px;
+  }
+}
+
+.header-left h1 {
+  font-size: 16px;
+  color: var(--preto);
+}
+
+@media (min-width: 769px) {
+  .header-left h1 {
+    font-size: 24px;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (min-width: 769px) {
+  .header-right {
+    gap: 20px;
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bege-claro);
+  border-radius: 20px;
+  font-family: var(--fonte-source);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+@media (min-width: 769px) {
+  .user-info {
+    gap: 8px;
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: none;
+  border: 1px solid var(--cinza-claro);
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: var(--fonte-source);
+  font-weight: 600;
+  transition: all 0.3s;
+  font-size: 12px;
+}
+
+@media (min-width: 769px) {
+  .logout-btn {
+    gap: 8px;
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+.logout-btn:hover {
+  background: #fee;
+  border-color: #c00;
+  color: #c00;
+}

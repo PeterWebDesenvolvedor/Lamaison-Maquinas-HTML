@@ -1,0 +1,75 @@
+/* Dark Mode Variables */
+.dark-mode {
+  --bege-claro: #1a1a1a;
+  --cinza-claro: #2a2a2a;
+  --preto: #e4e4e4;
+  --laranja-escuro: #c98a2e;
+  --laranja-claro: #d9a75c;
+  --queimado: #b8956e;
+}
+
+.dark-mode body {
+  background-color: #121212;
+}
+
+.dark-mode .sidebar,
+.dark-mode .header,
+.dark-mode .stat-card,
+.dark-mode .product-card,
+.dark-mode .user-dashboard,
+.dark-mode .my-activities,
+.dark-mode .activity-card,
+.dark-mode .modal-content,
+.dark-mode .commission-breakdown,
+.dark-mode .transactions-section,
+.dark-mode .transaction-card,
+.dark-mode .users-table,
+.dark-mode .products-grid .product-card,
+.dark-mode .seller-card,
+.dark-mode .action-card,
+.dark-mode .stat-mini {
+  background: #1e1e1e;
+  border-color: #333;
+}
+
+.dark-mode .search-input-group,
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #e4e4e4;
+}
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: #888;
+}
+
+.dark-mode th {
+  background: #2a2a2a;
+  color: #e4e4e4;
+}
+
+.dark-mode td {
+  border-bottom-color: #333;
+}
+
+.dark-mode .tabs {
+  background: #2a2a2a;
+}
+
+.dark-mode .tab-btn.active {
+  background: #1e1e1e;
+}
+
+.dark-mode .login-card {
+  background: #1e1e1e;
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group select,
+.dark-mode .form-group textarea {
+  background: #2a2a2a;
+  color: #e4e4e4;
+}

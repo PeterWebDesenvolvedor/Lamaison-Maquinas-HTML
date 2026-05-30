@@ -1,0 +1,218 @@
+.financeiro-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.commission-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 769px) {
+  .commission-stats {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+}
+
+.stat-card-total {
+  background: linear-gradient(135deg, var(--laranja-escuro), var(--laranja-claro));
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+@media (min-width: 769px) {
+  .stat-card-total {
+    padding: 25px;
+    gap: 20px;
+    border-radius: 15px;
+  }
+}
+
+.stat-icon-total {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 769px) {
+  .stat-icon-total {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+  }
+}
+
+.stat-value-total {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+@media (min-width: 769px) {
+  .stat-value-total {
+    font-size: 32px;
+  }
+}
+
+.commission-breakdown {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+@media (min-width: 769px) {
+  .commission-breakdown {
+    padding: 25px;
+    border-radius: 15px;
+  }
+}
+
+.commission-breakdown h3 {
+  margin-bottom: 15px;
+  color: var(--laranja-escuro);
+  font-size: 16px;
+}
+
+@media (min-width: 769px) {
+  .commission-breakdown h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+}
+
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 480px) {
+  .breakdown-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+}
+
+.breakdown-card {
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+}
+
+@media (min-width: 769px) {
+  .breakdown-card {
+    padding: 20px;
+  }
+}
+
+.breakdown-card h4 {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 769px) {
+  .breakdown-card h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+}
+
+.percentage {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+@media (min-width: 769px) {
+  .percentage {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+}
+
+.amount {
+  font-size: 14px;
+}
+
+@media (min-width: 769px) {
+  .amount {
+    font-size: 16px;
+  }
+}
+
+.transactions-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+@media (min-width: 769px) {
+  .transactions-section {
+    border-radius: 15px;
+    padding: 25px;
+  }
+}
+
+.transaction-card {
+  border: 1px solid var(--cinza-claro);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 769px) {
+  .transaction-card {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+  }
+}
+
+.transaction-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--cinza-claro);
+  border-bottom: 1px solid var(--cinza-claro);
+}
+
+@media (min-width: 480px) {
+  .transaction-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.detail-item {
+  font-size: 12px;
+}
+
+@media (min-width: 769px) {
+  .detail-item {
+    font-size: 14px;
+  }
+}
+
+.commission-details {
+  font-size: 10px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 769px) {
+  .commission-details {
+    font-size: 12px;
+  }
+}

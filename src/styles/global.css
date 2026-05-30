@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Source+Sans+3:wght@600&family=Roboto+Slab:wght@400&display=swap');
+
+:root {
+    --laranja-escuro: #a97421;
+    --laranja-claro: #C29C6B;
+    --bege-claro: #F8F5F0;
+    --queimado: #604A35;
+    --preto: #302F32;
+    --cinza-claro: #E4E4E4;
+    --fonte-playfair: 'Playfair Display', serif;
+    --fonte-source: 'Source Sans 3', sans-serif;
+    --fonte-roboto: 'Roboto Slab', serif;
+    --sidebar-width: 260px;
+    --sidebar-width-mobile: 70px;
+    --header-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-roboto);
+    background-color: var(--bege-claro);
+    color: var(--preto);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 13px;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--fonte-playfair);
+    font-weight: 500;
+}
+
+button,
+.button {
+    font-family: var(--fonte-source);
+    font-weight: 600;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cinza-claro);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--laranja-escuro);
+    border-radius: 4px;
+}
