@@ -1,29 +1,41 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
-// username ='admin' password ='admin123'
+import api from "../../api/axios"; // Ajuste o caminho se necessário
 
 const Login = ({ onLogin, onVisitorAccess }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    // Simulação de autenticação
-    if (username === "admin" && password === "admin123") {
-      onLogin({
-        id: 1,
-        username: "Admin",
-        type: "admin",
-        name: "Administrador",
+    try {
+      // Bate direto na rota mapeada: http://localhost:8070/api/auth/login
+      const response = await api.post("auth/login", {
+        email: email,
+        senha: password
       });
-    } else if (username && password) {
-      onLogin({ id: 2, username, type: "common", name: username });
-    } else {
-      setError("Credenciais inválidas");
+
+      // Pega o ResponseDTO gerado pelo Spring Boot
+      const loginResponseDTO = response.data.data || response.data;
+
+      setLoading(false);
+      onLogin(loginResponseDTO);
+    } catch (err) {
+      setLoading(false);
+      
+      // Captura mensagens amigáveis vindas do backend
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("E-mail ou senha inválidos.");
+      }
+      console.error("Erro na tentativa de login:", err);
     }
   };
 
@@ -38,13 +50,14 @@ const Login = ({ onLogin, onVisitorAccess }) => {
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label>Usuário</label>
+            <label>E-mail</label>
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Digite seu usuário"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Digite seu e-mail"
               required
+              disabled={loading}
             />
           </div>
 
@@ -56,18 +69,21 @@ const Login = ({ onLogin, onVisitorAccess }) => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Digite sua senha"
               required
+              disabled={loading}
             />
           </div>
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-primary">
-            Entrar
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? "Verificando..." : "Entrar"}
           </button>
+          
           <button
             type="button"
             className="btn-secondary"
             onClick={onVisitorAccess}
+            disabled={loading}
           >
             Acesso Visitante
           </button>

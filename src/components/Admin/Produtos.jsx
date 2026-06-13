@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/immutability */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Edit2, Search, Plus, Trash2, X, Tag } from "lucide-react";
+import api from "../../api/axios"; // 👈 Importação da sua instância conectada ao Java
 import "./Produtos.css";
 
 const Produtos = () => {
@@ -12,6 +14,9 @@ const Produtos = () => {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [newCategory, setNewCategory] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [formData, setFormData] = useState({
     nome: "",
     categoria: "",
@@ -24,71 +29,48 @@ const Produtos = () => {
     loadCategories();
   }, []);
 
-  const loadProducts = () => {
-    const storedProducts = localStorage.getItem("products");
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    } else {
-      const initialProducts = [
-        {
-          id: 1,
-          nome: "Máquina XR-2000",
-          categoria: "Industrial",
-          preco: 25000,
-          descricao: "Máquina de alta performance",
-        },
-        {
-          id: 2,
-          nome: "Compressor AR-500",
-          categoria: "Pneumática",
-          preco: 8500,
-          descricao: "Compressor industrial",
-        },
-        {
-          id: 3,
-          nome: "Esteira Transportadora",
-          categoria: "Logística",
-          preco: 15000,
-          descricao: "Esteira modular",
-        },
-      ];
-      setProducts(initialProducts);
-      localStorage.setItem("products", JSON.stringify(initialProducts));
+  // 1. CARREGA PRODUTOS DO BANCO DE DADOS (Acessível por qualquer usuário)
+  const loadProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("produtos"); // 👈 GET /api/produtos
+      const data = response.data.data || response.data;
+      setProducts(data);
+    } catch (err) {
+      console.error("Erro ao carregar produtos:", err);
+      setErrorMessage("Erro ao carregar a lista de máquinas do servidor.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const loadCategories = () => {
-    const storedCategories = localStorage.getItem("categories");
-    if (storedCategories) {
-      setCategories(JSON.parse(storedCategories));
-    } else {
-      const initialCategories = [
-        "Industrial",
-        "Pneumática",
-        "Logística",
-        "Elétrica",
-      ];
-      setCategories(initialCategories);
-      localStorage.setItem("categories", JSON.stringify(initialCategories));
+  // 2. CARREGA CATEGORIAS DO BANCO DE DADOS
+  const loadCategories = async () => {
+    try {
+      const response = await api.get("categorias"); // 👈 GET /api/categorias
+      const data = response.data.data || response.data;
+      setCategories(
+        data.length > 0
+          ? data
+          : ["Industrial", "Pneumática", "Logística", "Elétrica"],
+      );
+    } catch (err) {
+      console.error("Erro ao carregar categorias, usando padrão:", err);
+      setCategories(["Industrial", "Pneumática", "Logística", "Elétrica"]);
     }
   };
 
-  const saveProducts = (newProducts) => {
-    setProducts(newProducts);
-    localStorage.setItem("products", JSON.stringify(newProducts));
-  };
-
-  const saveCategories = (newCategories) => {
-    setCategories(newCategories);
-    localStorage.setItem("categories", JSON.stringify(newCategories));
-  };
-
-  const handleAddCategory = () => {
+  // 3. ADICIONA NOVA CATEGORIA NO BANCO
+  const handleAddCategory = async () => {
     if (newCategory && !categories.includes(newCategory)) {
-      const updatedCategories = [...categories, newCategory];
-      saveCategories(updatedCategories);
-      setNewCategory("");
-      setShowCategoryModal(false);
+      try {
+        await api.post("categorias", { nome: newCategory }); // 👈 POST /api/categorias
+        setCategories([...categories, newCategory]);
+        setNewCategory("");
+        setShowCategoryModal(false);
+      } catch (err) {
+        alert("Erro ao salvar nova categoria.");
+      }
     }
   };
 
@@ -108,17 +90,27 @@ const Produtos = () => {
     }
   };
 
-  const handleDeleteSelected = () => {
+  // 4. EXCLUI PRODUTOS DO BANCO DE DADOS
+  const handleDeleteSelected = async () => {
     if (
       window.confirm(
         `Tem certeza que deseja excluir ${selectedProducts.length} produto(s)?`,
       )
     ) {
-      const newProducts = products.filter(
-        (p) => !selectedProducts.includes(p.id),
-      );
-      saveProducts(newProducts);
-      setSelectedProducts([]);
+      try {
+        setLoading(true);
+        // Deleta em paralelo no lote usando o ID
+        await Promise.all(
+          selectedProducts.map((id) => api.delete(`produtos/${id}`)), // 👈 DELETE /api/produtos/{id}
+        );
+        setProducts(products.filter((p) => !selectedProducts.includes(p.id)));
+        setSelectedProducts([]);
+      } catch (err) {
+        console.error("Erro ao deletar produto(s):", err);
+        alert("Erro ao excluir itens do servidor.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -144,32 +136,41 @@ const Produtos = () => {
     setShowModal(true);
   };
 
-  const handleSubmit = (e) => {
+  // 5. CADASTRA OU EDITA MÁQUINA NO BANCO DE DADOS GLOBAL
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    if (editingProduct) {
-      const updatedProducts = products.map((p) =>
-        p.id === editingProduct.id
-          ? { ...p, ...formData, preco: parseFloat(formData.preco) }
-          : p,
-      );
-      saveProducts(updatedProducts);
-    } else {
-      const newProduct = {
-        id: Date.now(),
-        ...formData,
-        preco: parseFloat(formData.preco),
-      };
-      saveProducts([...products, newProduct]);
+    const payload = {
+      nome: formData.nome,
+      categoria: formData.categoria,
+      preco: parseFloat(formData.preco),
+      descricao: formData.descricao,
+    };
+
+    try {
+      if (editingProduct) {
+        // Rota de Edição (PUT)
+        await api.put(`produtos/${editingProduct.id}`, payload); // 👈 PUT /api/produtos/{id}
+      } else {
+        // Rota de Criação (POST)
+        await api.post("produtos", payload); // 👈 POST /api/produtos
+      }
+
+      await loadProducts(); // Recarrega do banco para sincronizar todos os usuários
+      setShowModal(false);
+    } catch (err) {
+      console.error("Erro ao salvar produto:", err);
+      alert("Erro ao salvar o produto no banco de dados.");
+    } finally {
+      setLoading(false);
     }
-
-    setShowModal(false);
   };
 
   const filteredProducts = products.filter(
     (product) =>
-      product.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.categoria.toLowerCase().includes(searchTerm.toLowerCase()),
+      product.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.categoria?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -180,16 +181,19 @@ const Produtos = () => {
           <button
             onClick={() => setShowCategoryModal(true)}
             className="btn-category"
+            disabled={loading}
           >
             <Tag size={18} />
             Nova Categoria
           </button>
-          <button onClick={handleAdd} className="btn-add">
+          <button onClick={handleAdd} className="btn-add" disabled={loading}>
             <Plus size={18} />
             Novo Produto
           </button>
         </div>
       </div>
+
+      {errorMessage && <div className="error-message-bar">{errorMessage}</div>}
 
       <div className="search-bar">
         <div className="search-input-group">
@@ -205,6 +209,7 @@ const Produtos = () => {
           <button
             onClick={handleDeleteSelected}
             className="btn-delete-selected"
+            disabled={loading}
           >
             <Trash2 size={18} />
             Excluir Selecionados ({selectedProducts.length})
@@ -212,36 +217,46 @@ const Produtos = () => {
         )}
       </div>
 
-      <div className="products-grid">
-        {filteredProducts.map((product) => (
-          <div key={product.id} className="product-card">
-            <div className="product-checkbox">
-              <input
-                type="checkbox"
-                checked={selectedProducts.includes(product.id)}
-                onChange={() => handleSelectProduct(product.id)}
-              />
-            </div>
-            <div className="product-content">
-              <h3>{product.nome}</h3>
-              <span className="product-category">{product.categoria}</span>
-              <p className="product-description">{product.descricao}</p>
-              <div className="product-footer">
-                <span className="product-price">
-                  R$ {product.preco.toLocaleString()}
-                </span>
-                <button
-                  onClick={() => handleEdit(product)}
-                  className="btn-edit"
-                >
-                  <Edit2 size={16} />
-                  Editar
-                </button>
+      {loading && products.length === 0 ? (
+        <div className="table-loading">
+          Buscando máquinas registradas no banco de dados...
+        </div>
+      ) : (
+        <div className="products-grid">
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="product-card">
+              <div className="product-checkbox">
+                <input
+                  type="checkbox"
+                  checked={selectedProducts.includes(product.id)}
+                  onChange={() => handleSelectProduct(product.id)}
+                />
+              </div>
+              <div className="product-content">
+                <h3>{product.nome}</h3>
+                <span className="product-category">{product.categoria}</span>
+                <p className="product-description">{product.descricao}</p>
+                <div className="product-footer">
+                  <span className="product-price">
+                    R${" "}
+                    {product.preco?.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                    })}
+                  </span>
+                  <button
+                    onClick={() => handleEdit(product)}
+                    className="btn-edit"
+                    disabled={loading}
+                  >
+                    <Edit2 size={16} />
+                    Editar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal de Produto */}
       {showModal && (
@@ -310,11 +325,16 @@ const Produtos = () => {
                   type="button"
                   onClick={() => setShowModal(false)}
                   className="btn-cancel"
+                  disabled={loading}
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn-submit">
-                  {editingProduct ? "Salvar" : "Cadastrar"}
+                <button type="submit" className="btn-submit" disabled={loading}>
+                  {loading
+                    ? "Salvando..."
+                    : editingProduct
+                      ? "Salvar"
+                      : "Cadastrar"}
                 </button>
               </div>
             </form>
