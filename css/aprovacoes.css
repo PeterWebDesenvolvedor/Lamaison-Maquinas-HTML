@@ -1,0 +1,114 @@
+.aprovacoes-container .approval-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.aprovacoes-container .approval-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.aprovacoes-container .approval-tab.active {
+    background: var(--laranja-escuro);
+    color: white;
+    border-color: var(--laranja-escuro);
+}
+
+.aprovacoes-container .approval-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid var(--cinza-claro);
+}
+
+.aprovacoes-container .approval-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.aprovacoes-container .approval-header h3 {
+    color: var(--laranja-escuro);
+    font-size: 18px;
+}
+
+.aprovacoes-container .user-name {
+    color: var(--queimado);
+    font-size: 13px;
+}
+
+.aprovacoes-container .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.aprovacoes-container .detail-grid div {
+    font-size: 14px;
+}
+
+.aprovacoes-container .observations {
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--bege-claro);
+    border-radius: 8px;
+}
+
+.aprovacoes-container .observations p {
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.aprovacoes-container .approval-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: flex-end;
+}
+
+.aprovacoes-container .btn-approve,
+.aprovacoes-container .btn-reject {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.aprovacoes-container .btn-approve {
+    background: #28a745;
+    color: white;
+}
+
+.aprovacoes-container .btn-approve:hover {
+    background: #218838;
+}
+
+.aprovacoes-container .btn-reject {
+    background: #dc3545;
+    color: white;
+}
+
+.aprovacoes-container .btn-reject:hover {
+    background: #c82333;
+}

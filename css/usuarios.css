@@ -1,0 +1,36 @@
+.btn-delete-selected {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-delete-selected:hover {
+    background: #c82333;
+}
+
+.btn-edit {
+    padding: 5px 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--laranja-escuro);
+    transition: color 0.3s;
+}
+
+.btn-edit:hover {
+    color: var(--laranja-claro);
+}
+
+.btn-edit svg {
+    width: 16px;
+    height: 16px;
+}

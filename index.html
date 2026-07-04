@@ -1,13 +1,120 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lamaison Máquinas - Sistema de Gestão</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/usuarios.css" />
+    <link rel="stylesheet" href="css/produtos.css" />
+    <link rel="stylesheet" href="css/financeiro.css" />
+    <link rel="stylesheet" href="css/negociacoes.css" />
+    <link rel="stylesheet" href="css/aprovacoes.css" />
+    <link rel="stylesheet" href="css/user-dashboard.css" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Source+Sans+3:wght@400;600;700&family=Roboto+Slab:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page -->
+        <div id="loginPage" class="page active">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header">
+                        <div class="logo-icon">LM</div>
+                        <h1>Lamaison Máquinas</h1>
+                        <p>Sistema de Gestão</p>
+                    </div>
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" id="loginEmail" placeholder="Digite seu e-mail" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Senha</label>
+                            <input type="password" id="loginPassword" placeholder="Digite sua senha" required />
+                        </div>
+                        <div id="loginError" class="error-message" style="display:none;"></div>
+                        <button type="submit" class="btn-primary" id="loginBtn">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminPage" class="page">
+            <div class="layout">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <div class="logo">LM</div>
+                        <h2>Lamaison</h2>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <button class="nav-item active" data-page="admin-dashboard">📊 Dashboard</button>
+                        <button class="nav-item" data-page="admin-usuarios">👥 Usuários</button>
+                        <button class="nav-item" data-page="admin-produtos">📦 Produtos</button>
+                        <button class="nav-item" data-page="admin-financeiro">💰 Financeiro</button>
+                        <button class="nav-item" data-page="admin-negociacoes">📈 Negociações</button>
+                        <button class="nav-item" data-page="admin-aprovacoes">✅ Aprovações</button>
+                    </nav>
+                </aside>
+                <div class="main-content">
+                    <header class="header">
+                        <div class="header-left">
+                            <h1 id="pageTitle">Dashboard</h1>
+                        </div>
+                        <div class="header-right">
+                            <div class="user-info">
+                                👤 <span id="userName">Administrador</span>
+                            </div>
+                            <button class="logout-btn" id="logoutBtn">🚪 Sair</button>
+                        </div>
+                    </header>
+                    <main class="content-area" id="contentArea">
+                        <!-- Conteúdo dinâmico -->
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Dashboard -->
+        <div id="userPage" class="page">
+            <div class="layout">
+                <aside class="sidebar" id="userSidebar">
+                    <div class="sidebar-header">
+                        <div class="logo">LM</div>
+                        <h2>Lamaison</h2>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <button class="nav-item active" data-page="user-dashboard">🏠 Início</button>
+                        <button class="nav-item" data-page="user-produtos">📦 Catálogo</button>
+                    </nav>
+                </aside>
+                <div class="main-content">
+                    <header class="header">
+                        <div class="header-left">
+                            <h1 id="userPageTitle">Início</h1>
+                        </div>
+                        <div class="header-right">
+                            <div class="user-info">
+                                👤 <span id="userNameUser">Usuário</span>
+                            </div>
+                            <button class="logout-btn" id="logoutBtnUser">🚪 Sair</button>
+                        </div>
+                    </header>
+                    <main class="content-area" id="userContentArea">
+                        <!-- Conteúdo dinâmico do usuário -->
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+</body>
 </html>

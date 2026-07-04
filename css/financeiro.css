@@ -1,0 +1,122 @@
+.financeiro-container .commission-stats {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.financeiro-container .stat-card-total {
+    background: linear-gradient(135deg, var(--laranja-escuro), var(--laranja-claro));
+    padding: 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+}
+
+.financeiro-container .stat-icon-total {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.financeiro-container .stat-value-total {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.financeiro-container .commission-breakdown {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.financeiro-container .commission-breakdown h3 {
+    margin-bottom: 20px;
+    color: var(--laranja-escuro);
+    font-size: 16px;
+}
+
+.financeiro-container .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.financeiro-container .breakdown-card {
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+}
+
+.financeiro-container .breakdown-card h4 {
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.financeiro-container .percentage {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.financeiro-container .amount {
+    font-size: 14px;
+}
+
+.financeiro-container .transactions-section {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.financeiro-container .transactions-section h3 {
+    margin-bottom: 20px;
+    color: var(--laranja-escuro);
+}
+
+.financeiro-container .transaction-card {
+    border: 1px solid var(--cinza-claro);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.financeiro-container .transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.financeiro-container .transaction-header h5 {
+    font-size: 16px;
+    color: var(--laranja-escuro);
+}
+
+.financeiro-container .transaction-value {
+    font-weight: bold;
+    color: var(--preto);
+}
+
+.financeiro-container .transaction-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid var(--cinza-claro);
+    border-bottom: 1px solid var(--cinza-claro);
+    font-size: 13px;
+}
+
+.financeiro-container .transaction-commission {
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--laranja-escuro);
+}

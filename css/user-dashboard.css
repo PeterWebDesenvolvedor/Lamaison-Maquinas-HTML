@@ -1,0 +1,220 @@
+.user-dashboard .welcome-section {
+  margin-bottom: 25px;
+}
+
+.user-dashboard .welcome-section h2 {
+  font-size: 24px;
+  color: var(--laranja-escuro);
+  margin-bottom: 5px;
+}
+
+.user-dashboard .welcome-section p {
+  color: var(--queimado);
+  font-size: 14px;
+}
+
+.user-dashboard .action-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.user-dashboard .action-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.user-dashboard .action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.user-dashboard .sell-card {
+  border-color: var(--laranja-escuro);
+}
+
+.user-dashboard .capture-card {
+  border-color: var(--queimado);
+}
+
+.user-dashboard .catalog-card {
+  border-color: var(--laranja-claro);
+}
+
+.user-dashboard .action-card h3 {
+  font-size: 18px;
+  margin: 10px 0 5px;
+  color: var(--preto);
+}
+
+.user-dashboard .action-card p {
+  font-size: 13px;
+  color: var(--queimado);
+}
+
+.user-dashboard .action-card svg {
+  width: 32px;
+  height: 32px;
+}
+
+.user-dashboard .my-activities {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.user-dashboard .tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cinza-claro);
+  background: var(--bege-claro);
+}
+
+.user-dashboard .tab-btn {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  color: var(--queimado);
+}
+
+.user-dashboard .tab-btn.active {
+  background: white;
+  color: var(--laranja-escuro);
+  border-bottom: 2px solid var(--laranja-escuro);
+}
+
+.user-dashboard .activities-list {
+  padding: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.user-dashboard .activity-card {
+  border: 1px solid var(--cinza-claro);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+}
+
+.user-dashboard .activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-dashboard .activity-header h4 {
+  color: var(--laranja-escuro);
+  font-size: 16px;
+}
+
+.user-dashboard .activity-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-dashboard .activity-details .label {
+  color: var(--queimado);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.user-dashboard .activity-details .price {
+  color: var(--laranja-escuro);
+  font-weight: bold;
+}
+
+.user-dashboard .btn-empty {
+  padding: 10px 20px;
+  background: var(--laranja-escuro);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Source Sans 3", sans-serif;
+  margin-top: 10px;
+}
+
+.user-dashboard .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid var(--cinza-claro);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;
+  color: var(--queimado);
+  margin-bottom: 15px;
+}
+
+.user-dashboard .back-btn:hover {
+  background: var(--bege-claro);
+}
+
+.user-dashboard .product-card-catalog {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--cinza-claro);
+}
+
+.user-dashboard .product-card-catalog h3 {
+  color: var(--laranja-escuro);
+  margin-bottom: 8px;
+}
+
+.user-dashboard .product-card-catalog .category {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--bege-claro);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--queimado);
+  margin-bottom: 10px;
+}
+
+.user-dashboard .product-card-catalog .description {
+  color: var(--preto);
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.user-dashboard .product-card-catalog .price {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--laranja-escuro);
+}
+
+.user-dashboard .btn-interest {
+  padding: 8px 16px;
+  background: var(--laranja-escuro);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.user-dashboard .products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
