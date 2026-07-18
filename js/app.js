@@ -28,7 +28,7 @@ const api = {
       const url = `${API_BASE_URL}${cleanEndpoint}`;
 
       const response = await fetch(url, {
-        ...post,
+        ...options,
         headers,
         signal: controller.signal,
       });

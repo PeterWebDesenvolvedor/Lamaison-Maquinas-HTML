@@ -1,29 +1,29 @@
-// Admin - Usuários
+// ============================================
+// RENDER USUÁRIOS
+// ============================================
+
+import { api } from '../api.js';
+import { Data } from '../data.js';
+
 let usuariosData = [];
 
-function renderAdminUsuarios(container) {
+export function renderUsuarios(container) {
     container.innerHTML = `
         <div class="usuarios-container fade-in">
             <div class="page-header">
                 <h2>Gerenciar Usuários</h2>
-                <button class="btn-add" onclick="showUsuarioModal()">
-                    <span data-icon="Plus"></span> Novo Usuário
-                </button>
+                <button class="btn-add" onclick="window.showUsuarioModal()">➕ Novo Usuário</button>
             </div>
             <div class="search-bar">
                 <div class="search-input-group">
-                    <span data-icon="Search"></span>
-                    <input type="text" placeholder="Pesquisar..." id="searchUsuarios" oninput="filterUsuarios()" />
+                    🔍
+                    <input type="text" placeholder="Pesquisar..." id="searchUsuarios" oninput="window.filterUsuarios()" />
                 </div>
-                <button class="btn-delete-selected" onclick="deleteSelectedUsuarios()" style="display:none;" id="deleteSelectedUsuarios">
-                    <span data-icon="Trash2"></span> Excluir
-                </button>
             </div>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="selectAllUsuarios" onchange="toggleAllUsuarios()" /></th>
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Estado</th>
@@ -32,66 +32,51 @@ function renderAdminUsuarios(container) {
                         </tr>
                     </thead>
                     <tbody id="usuariosTableBody">
-                        <tr><td colspan="6" class="loading-state">Carregando...</td></tr>
+                        <tr><td colspan="5" class="loading-state">Carregando...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     `;
-
-    lucide.createIcons();
-    loadUsuarios();
+    loadUsuariosTable();
 }
 
-async function loadUsuarios() {
+export async function loadUsuariosTable() {
+    const tbody = document.getElementById('usuariosTableBody');
+    
     try {
         const response = await api.getUsuarios();
         usuariosData = response.data || response || [];
         renderUsuariosTable(usuariosData);
     } catch (error) {
-        // Fallback localStorage
-        usuariosData = JSON.parse(localStorage.getItem('users') || '[]');
+        usuariosData = Data.getUsers();
         renderUsuariosTable(usuariosData);
     }
 }
 
-function renderUsuariosTable(data) {
+export function renderUsuariosTable(data) {
     const tbody = document.getElementById('usuariosTableBody');
     
     if (!data || data.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6" class="empty-state">
-                    <p>Nenhum usuário cadastrado</p>
-                </td>
-            </tr>
-        `;
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum usuário cadastrado</td></tr>';
         return;
     }
-
+    
     tbody.innerHTML = data.map(user => `
         <tr>
-            <td><input type="checkbox" class="user-checkbox" value="${user.id}" onchange="updateDeleteButton()" /></td>
-            <td>${user.name || ''}</td>
+            <td>${user.name || user.nome || ''}</td>
             <td>${user.email || ''}</td>
-            <td>
-                <span class="status-badge status-${user.role?.toLowerCase() || 'user'}">
-                    ${user.role === 'ADMIN' ? 'Admin' : 'Comum'}
-                </span>
-            </td>
+            <td><span class="status-badge status-${(user.role || user.estado || 'user').toLowerCase()}">${user.role === 'ADMIN' ? 'Admin' : 'Comum'}</span></td>
             <td><span class="tipo-badge">${user.tipo || 'V'}</span></td>
             <td>
-                <button class="btn-edit" onclick="editUsuario(${user.id})">
-                    <span data-icon="Edit2"></span>
-                </button>
+                <button class="btn-edit" onclick="window.editUsuario(${user.id})">✏️</button>
+                <button class="btn-delete" onclick="window.deleteUsuario(${user.id})">🗑️</button>
             </td>
         </tr>
     `).join('');
-
-    lucide.createIcons();
 }
 
-function filterUsuarios() {
+export function filterUsuarios() {
     const search = document.getElementById('searchUsuarios').value.toLowerCase();
     const filtered = usuariosData.filter(u => 
         (u.name || '').toLowerCase().includes(search) ||
@@ -100,42 +85,7 @@ function filterUsuarios() {
     renderUsuariosTable(filtered);
 }
 
-function toggleAllUsuarios() {
-    const checked = document.getElementById('selectAllUsuarios').checked;
-    document.querySelectorAll('.user-checkbox').forEach(cb => cb.checked = checked);
-    updateDeleteButton();
-}
-
-function updateDeleteButton() {
-    const checked = document.querySelectorAll('.user-checkbox:checked').length;
-    const btn = document.getElementById('deleteSelectedUsuarios');
-    btn.style.display = checked > 0 ? 'flex' : 'none';
-    btn.innerHTML = `<span data-icon="Trash2"></span> Excluir (${checked})`;
-    lucide.createIcons();
-}
-
-function deleteSelectedUsuarios() {
-    const ids = Array.from(document.querySelectorAll('.user-checkbox:checked')).map(cb => parseInt(cb.value));
-    if (!ids.length) return;
-    if (!confirm(`Excluir ${ids.length} usuário(s)?`)) return;
-
-    // Chamar API ou localStorage
-    try {
-        api.deleteUsuarios(ids);
-        usuariosData = usuariosData.filter(u => !ids.includes(u.id));
-        localStorage.setItem('users', JSON.stringify(usuariosData));
-        renderUsuariosTable(usuariosData);
-        updateDeleteButton();
-    } catch (error) {
-        // Fallback localStorage
-        usuariosData = usuariosData.filter(u => !ids.includes(u.id));
-        localStorage.setItem('users', JSON.stringify(usuariosData));
-        renderUsuariosTable(usuariosData);
-        updateDeleteButton();
-    }
-}
-
-function showUsuarioModal(data = null) {
+export function showUsuarioModal(data = null) {
     const isEdit = !!data;
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
@@ -145,7 +95,7 @@ function showUsuarioModal(data = null) {
         <div class="modal-content">
             <div class="modal-header">
                 <h3>${isEdit ? 'Editar Usuário' : 'Novo Usuário'}</h3>
-                <button class="modal-close" onclick="closeUsuarioModal()">×</button>
+                <button class="modal-close" onclick="window.closeUsuarioModal()">×</button>
             </div>
             <form class="modal-form" id="usuarioForm">
                 <div class="form-group">
@@ -177,7 +127,7 @@ function showUsuarioModal(data = null) {
                     </select>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeUsuarioModal()">Cancelar</button>
+                    <button type="button" class="btn-cancel" onclick="window.closeUsuarioModal()">Cancelar</button>
                     <button type="submit" class="btn-submit">${isEdit ? 'Salvar' : 'Cadastrar'}</button>
                 </div>
             </form>
@@ -203,7 +153,7 @@ function showUsuarioModal(data = null) {
                 await api.createUsuario(formData);
             }
             closeUsuarioModal();
-            loadUsuarios();
+            loadUsuariosTable();
         } catch (error) {
             // Fallback localStorage
             if (isEdit) {
@@ -213,29 +163,43 @@ function showUsuarioModal(data = null) {
                 }
             } else {
                 formData.id = Date.now();
+                formData.ativo = true;
                 usuariosData.push(formData);
             }
-            localStorage.setItem('users', JSON.stringify(usuariosData));
+            Data.saveUsers(usuariosData);
             closeUsuarioModal();
             renderUsuariosTable(usuariosData);
         }
     });
 }
 
-function editUsuario(id) {
+export function editUsuario(id) {
     const user = usuariosData.find(u => u.id === id);
     if (user) showUsuarioModal(user);
 }
 
-function closeUsuarioModal() {
+export function deleteUsuario(id) {
+    if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+    
+    try {
+        api.deleteUsuario(id);
+        usuariosData = usuariosData.filter(u => u.id !== id);
+        Data.saveUsers(usuariosData);
+        renderUsuariosTable(usuariosData);
+    } catch (error) {
+        usuariosData = usuariosData.filter(u => u.id !== id);
+        Data.saveUsers(usuariosData);
+        renderUsuariosTable(usuariosData);
+    }
+}
+
+export function closeUsuarioModal() {
     document.getElementById('usuarioModal')?.remove();
 }
 
 // Expor funções globalmente
 window.showUsuarioModal = showUsuarioModal;
 window.editUsuario = editUsuario;
+window.deleteUsuario = deleteUsuario;
 window.closeUsuarioModal = closeUsuarioModal;
-window.deleteSelectedUsuarios = deleteSelectedUsuarios;
-window.toggleAllUsuarios = toggleAllUsuarios;
 window.filterUsuarios = filterUsuarios;
-window.updateDeleteButton = updateDeleteButton;
